@@ -1,0 +1,78 @@
+stages:
+  - build
+  - sign
+  - verify
+  - deploy
+
+variables:
+  PYTHON_VERSION: "3.11"
+
+build:
+  stage: build
+  image: python:3.11
+  before_script:
+    - python -m pip install --upgrade pip
+    - pip install -r requirements.txt
+    - pip install pyinstaller
+  script:
+    - python build_scripts/build.py
+  artifacts:
+    paths:
+      - artifacts/unsigned/*.exe
+    expire_in: 30 days
+
+sign:
+  stage: sign
+  image: ubuntu:22.04
+  before_script:
+    - apt-get update -qq
+    - apt-get install -y -qq python3 python3-pip softhsm2 osslsigncode openssl
+    - python3 -m pip install --upgrade pip
+    - pip3 install -r requirements.txt
+  script:
+    - bash certs/generate_certs.sh
+    - bash hsm/init_hsm.sh
+    - bash hsm/import_to_hsm.sh
+    - python3 build_scripts/sign.py
+  artifacts:
+    paths:
+      - artifacts/signed/*.exe
+      - artifacts/signed/*.chain.pem
+      - artifacts/signed/signing_metadata.json
+    expire_in: 30 days
+  dependencies:
+    - build
+
+verify:
+  stage: verify
+  image: python:3.11
+  before_script:
+    - apt-get update -qq
+    - apt-get install -y -qq osslsigncode
+    - python -m pip install --upgrade pip
+    - pip install -r requirements.txt
+  script:
+    - |
+      if [ ! -f certs/ca.cert.pem ]; then
+        bash certs/generate_certs.sh
+      fi
+    - python build_scripts/verify.py
+  artifacts:
+    paths:
+      - artifacts/signed/*.verify.json
+    expire_in: 30 days
+  dependencies:
+    - sign
+
+deploy:
+  stage: deploy
+  image: ubuntu:22.04
+  only:
+    - main
+    - master
+  script:
+    - echo "Deploy signed artifacts to demo server"
+    # Add your deployment logic here
+  dependencies:
+    - verify
+

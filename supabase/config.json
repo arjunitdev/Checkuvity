@@ -1,0 +1,18 @@
+{
+  "supabase": {
+    "url": "",
+    "anon_key": "",
+    "service_role_key": ""
+  },
+  "storage": {
+    "bucket": "text-files",
+    "public": false,
+    "max_file_size_mb": 10
+  },
+  "security": {
+    "enable_rls": true,
+    "session_timeout_minutes": 60,
+    "require_https": true
+  }
+}
+

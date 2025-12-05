@@ -1,0 +1,99 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# Environments and secrets
+.env
+.env.*
+.venv/
+venv/
+
+# Logs and temp
+*.log
+*.tmp
+*.swp
+*.bak
+
+# Node/Frontend
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+
+# Build and bundle outputs
+build/
+dist/
+web/assets/
+public/assets/
+latest_bundle.zip
+test_download.zip
+
+# Certificates and binaries
+certs/*.pem
+artifacts/
+*.exe
+
+# IDE/Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+env/
+
+# Certificates and keys (sensitive)
+certs/*.key.pem
+certs/*.pem
+!certs/*.cnf
+
+# Artifacts
+artifacts/unsigned/*.exe
+artifacts/signed/*.exe
+artifacts/*/*.sha256.txt
+artifacts/*/*.json
+artifacts/*/*.chain.pem
+artifacts/*/*.verify.json
+
+# HSM tokens
+hsm/*.db
+hsm/tokens/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Config (may contain secrets)
+config.json.local
+.env
+*.env
+
+# Archived EXE code
+*.archive
+
+.vercel
+.env*.local
