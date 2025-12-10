@@ -1,0 +1,14 @@
+# Core dependencies
+cryptography>=41.0.0
+python-dotenv>=1.0.0
+supabase>=2.0.0
+postgrest>=0.13.0
+requests>=2.31.0
+
+# Verification tools
+pefile>=2023.2.7
+asn1crypto>=1.5.1
+pyOpenSSL>=23.0.0
+
+
+

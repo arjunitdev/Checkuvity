@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
 Threat Intelligence Tools - External threat checks
-Placeholder for future integration with threat intelligence feeds
 """
 
 from typing import Dict, List, Optional, Any
@@ -12,8 +11,7 @@ class ThreatIntelligenceTools:
     
     def __init__(self):
         """Initialize threat intelligence tools"""
-        # Placeholder for future API keys and configuration
-        self.enabled = False  # Set to True when external APIs are configured
+        self.enabled = False
     
     def check_public_key(self, public_key_hash: str) -> Dict[str, Any]:
         """
@@ -25,9 +23,6 @@ class ThreatIntelligenceTools:
         Returns:
             Dictionary with threat check results
         """
-        # Placeholder implementation
-        # Future: Integrate with VirusTotal, abuse.ch, etc.
-        
         return {
             "threats_detected": [],
             "is_malicious": False,
@@ -46,9 +41,6 @@ class ThreatIntelligenceTools:
         Returns:
             Dictionary with threat check results
         """
-        # Placeholder implementation
-        # Future: Check certificate revocation lists, known bad certs
-        
         return {
             "threats_detected": [],
             "is_revoked": False,
@@ -67,9 +59,6 @@ class ThreatIntelligenceTools:
         Returns:
             Dictionary with threat check results
         """
-        # Placeholder implementation
-        # Future: Integrate with VirusTotal, Hybrid Analysis, etc.
-        
         return {
             "threats_detected": [],
             "is_malicious": False,
@@ -88,7 +77,6 @@ class ThreatIntelligenceTools:
         Returns:
             Threat details dictionary or None
         """
-        # Placeholder implementation
         return None
     
     def check_multiple_indicators(

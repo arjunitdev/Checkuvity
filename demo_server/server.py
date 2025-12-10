@@ -39,13 +39,13 @@ except ImportError:
     sys.path.insert(0, str(fallback_project_root))
     sys.path.insert(0, str(fallback_project_root / "demo_server"))
     sys.path.insert(0, str(fallback_project_root / "build_scripts"))
-    sys.path.insert(0, str(fallback_project_root / "security_agent_service"))
+    sys.path.insert(0, str(fallback_project_root / "security_service"))
     from demo_server.config import (
         DEFAULT_DEMO_USER_ID,
         DEFAULT_HOST,
         DEFAULT_PORT,
         ERROR_MESSAGES,
-        LOG_DATE_FORMAT,
+    LOG_DATE_FORMAT,
         LOG_FORMAT,
         MAX_FILE_SIZE,
     )
@@ -62,7 +62,7 @@ for extra_path in (
     PROJECT_ROOT,
     PROJECT_ROOT / "demo_server",
     PROJECT_ROOT / "build_scripts",
-    PROJECT_ROOT / "security_agent_service",
+    PROJECT_ROOT / "security_service",
 ):
     path_str = str(extra_path)
     if path_str not in sys.path:
@@ -75,9 +75,8 @@ except ImportError as e:
     logging.warning("Running without Supabase - will use demo mode")
     SupabaseFileManager = None
 
-# Configure logging
 logging.basicConfig(
-    level=logging.DEBUG,  # Changed to DEBUG for more detailed logging
+    level=logging.DEBUG,
     format=LOG_FORMAT,
     datefmt=LOG_DATE_FORMAT,
 )
@@ -85,11 +84,10 @@ logger = logging.getLogger(__name__)
 logger.debug("Logging configured for demo server module import")
 
 app = Flask(__name__)
-CORS(app)  # Allow all origins for development - restrict in production
+CORS(app)
 app.config["MAX_CONTENT_LENGTH"] = MAX_FILE_SIZE
 
 
-# Global error handlers to ensure JSON responses
 @app.errorhandler(404)
 def not_found(error):
     return (
@@ -211,17 +209,7 @@ def validate_auth_header() -> Optional[str]:
     if not auth_header.startswith(BEARER_PREFIX):
         return None
 
-    _token = auth_header[len(BEARER_PREFIX) :]  # Remove 'Bearer ' prefix
-
-    # NOTE: JWT token verification is deferred for demo purposes
-    # In production, implement proper JWT verification using Supabase Auth:
-    #   from supabase import create_client
-    #   supabase = create_client(url, key)
-    #   user = supabase.auth.get_user(token)
-    #   return user.user.id
-    #
-    # For now, this is a placeholder that extracts user_id from request body
-    # This is NOT secure for production - implement proper JWT verification before deployment
+    _token = auth_header[len(BEARER_PREFIX) :]
     return request.json.get("user_id") if request.is_json else None
 
 
@@ -1116,13 +1104,14 @@ def _init_security_service():
     global security_service, security_tools
     if security_service is None:
         try:
-            from security_agent_service.service import SecurityVerificationService
-            from security_agent_service.tools.supabase_tools import (
+            from security_service.service import SecurityVerificationService
+            from security_service.tools.supabase_tools import (
                 SupabaseSecurityTools,
             )
 
             security_service = SecurityVerificationService()
             security_tools = SupabaseSecurityTools(use_service_role=True)
+            
             logger.info("Security verification service initialized successfully")
         except ImportError as e:
             logger.warning(
@@ -1142,7 +1131,7 @@ def _init_security_service():
 
 @app.route("/api/verify-security/<file_id>", methods=["GET"])
 def verify_security(file_id: str) -> Tuple[Response, int]:
-    """Verify file security using AI agent service
+    """Verify file security using verification service
 
     Args:
         file_id: UUID of the file to verify

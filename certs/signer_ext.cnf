@@ -1,4 +1,0 @@
-basicConstraints=CA:FALSE
-extendedKeyUsage=codeSigning
-keyUsage=digitalSignature,nonRepudiation
-
