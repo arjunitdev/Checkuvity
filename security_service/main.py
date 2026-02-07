@@ -15,7 +15,14 @@ sys.path.insert(0, str(PROJECT_ROOT))
 sys.path.insert(0, str(PROJECT_ROOT / "security_service"))
 
 from service import SecurityVerificationService
-from security_service.config import validate_config
+import os
+
+def validate_config():
+    required_vars = ["OPENAI_API_KEY", "SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY"]
+    for var in required_vars:
+        if not os.getenv(var):
+            return False
+    return True
 
 
 def main():

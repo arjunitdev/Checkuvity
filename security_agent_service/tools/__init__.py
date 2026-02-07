@@ -1,4 +1,0 @@
-"""
-Tools for Security Verification
-"""
-

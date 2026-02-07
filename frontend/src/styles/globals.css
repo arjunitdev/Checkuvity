@@ -39,6 +39,9 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  /* Portfolio / terminal: same contrast as primary */
+  --terminal: var(--primary);
+  --font-display: var(--font-sans, ui-sans-serif, system-ui, sans-serif);
 }
 
 .dark {
@@ -76,6 +79,7 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(0.269 0 0);
   --sidebar-ring: oklch(0.439 0 0);
+  --terminal: var(--primary);
 }
 
 @theme inline {
@@ -117,6 +121,93 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-terminal: var(--terminal);
+}
+
+/* Portfolio: header and nav (same contrast as card/background) */
+.header-red {
+  background-color: var(--card);
+}
+
+.nav-link {
+  color: var(--muted-foreground);
+  transition: color 0.15s ease;
+}
+.nav-link:hover {
+  color: var(--foreground);
+}
+
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.5s ease-out forwards;
+}
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animation-delay-100 { animation-delay: 100ms; }
+.animation-delay-200 { animation-delay: 200ms; }
+.animation-delay-300 { animation-delay: 300ms; }
+.animation-delay-400 { animation-delay: 400ms; }
+.animation-delay-500 { animation-delay: 500ms; }
+.animation-delay-600 { animation-delay: 600ms; }
+.animation-delay-700 { animation-delay: 700ms; }
+.animation-delay-800 { animation-delay: 800ms; }
+
+.text-terminal {
+  color: var(--terminal);
+}
+
+/* ProjectCard: glass card, badges, button (same contrast) */
+.card-glass {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.tech-badge {
+  font-size: 0.75rem;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  background-color: var(--muted);
+  color: var(--muted-foreground);
+  border: 1px solid var(--border);
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  font-weight: var(--font-weight-medium);
+  transition: opacity 0.15s ease, filter 0.15s ease;
+}
+.btn-primary:hover {
+  opacity: 0.9;
+  filter: brightness(1.05);
+}
+
+.text-gradient {
+  color: var(--terminal);
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 @layer base {
